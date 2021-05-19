@@ -20,9 +20,12 @@
   "homepage": "https://github.com/kirim-Lee/instaclone-backend#readme",
   "dependencies": {
     "@babel/node": "^7.14.2",
+    "@graphql-tools/load-files": "^6.3.2",
+    "@graphql-tools/merge": "^6.2.14",
     "@prisma/client": "2.22.1",
     "apollo-server": "^2.24.0",
-    "graphql": "^15.5.0"
+    "graphql": "^15.5.0",
+    "graphql-tools": "^4.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.14.2",

@@ -1,6 +1,14 @@
-import movieTypeDefs from './movies/movies.typeDefs';
-import movieQueries from './movies/movies.queries';
-import movieMutations from './movies/movies.mutations';
+import { loadFilesSync } from '@graphql-tools/load-files';
+import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 
-export const typeDefs = movieTypeDefs;
-export const resolvers = { ...movieQueries, ...movieMutations };
+const loadTypes = loadFilesSync(`${__dirname}/**/*.typeDefs.ts`);
+const loadedResolvers = loadFilesSync(
+  `${__dirname}/**/*.{queries,mutations}.ts`
+);
+
+const typeDefs = mergeTypeDefs(loadTypes);
+const resolvers = mergeResolvers(loadedResolvers);
+
+const schema = { typeDefs, resolvers };
+
+export default schema;
