@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "dev": "nodemon --exec babel-node src/server.ts --extensions \".ts\"",
-    "migrate": "npx prisma migrate dev"
+    "migrate": "npx prisma migrate dev",
+    "studio": "npx prisma studio"
   },
   "repository": {
     "type": "git",
