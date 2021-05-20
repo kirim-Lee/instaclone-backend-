@@ -1997,6 +1997,11 @@
   dependencies:
     "is-obj" "^2.0.0"
 
+"dotenv@^9.0.2":
+  "integrity" "sha512-I9OvvrHp4pIARv4+x9iuewrWycX6CcZtoAu1XrzPxc5UygMJXJZYmBsynku8IkrJwgypE5DGNjDPmPRhDCptUg=="
+  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-9.0.2.tgz"
+  "version" "9.0.2"
+
 "duplexer3@^0.1.4":
   "integrity" "sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI="
   "resolved" "https://registry.npmjs.org/duplexer3/-/duplexer3-0.1.4.tgz"
