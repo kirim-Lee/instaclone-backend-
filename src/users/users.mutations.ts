@@ -10,6 +10,11 @@ interface ICreateAccount {
   password: string;
 }
 
+interface ILogin {
+  username: string;
+  password: string;
+}
+
 export default {
   Mutation: {
     createAccount: async (
@@ -39,6 +44,35 @@ export default {
             password: uglyPassword,
           },
         });
+      } catch (e) {
+        return e;
+      }
+    },
+    login: async (_: ThisType<ResolverFn>, { username, password }: ILogin) => {
+      try {
+        //find use with args.username
+        const user = await client.user.findFirst({ where: { username } });
+
+        if (!user) {
+          return {
+            ok: false,
+            error: 'User is not exist',
+          };
+        }
+
+        // check password with args.password
+        const checkPassword = await bcrypt.compare(password, user.password);
+
+        if (!checkPassword) {
+          return {
+            ok: false,
+            error: 'password is not correct',
+          };
+        }
+        // issue a token and send it to user
+        return {
+          ok: true,
+        };
       } catch (e) {
         return e;
       }
