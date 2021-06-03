@@ -1,6 +1,7 @@
 import { ResolverFn } from 'graphql-tools/dist/stitching/makeRemoteExecutableSchema';
 import client from '../client';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 interface ICreateAccount {
   firstName: string;
@@ -69,9 +70,16 @@ export default {
             error: 'password is not correct',
           };
         }
+
         // issue a token and send it to user
+        const token = jwt.sign(
+          { id: user.id },
+          process.env.SECRET_KEY as string
+        );
+
         return {
           ok: true,
+          token,
         };
       } catch (e) {
         return e;

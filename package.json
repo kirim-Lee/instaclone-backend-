@@ -23,6 +23,7 @@
     "@graphql-tools/load-files": "^6.3.2",
     "@graphql-tools/merge": "^6.2.14",
     "@prisma/client": "2.22.1",
+    "@types/jsonwebtoken": "^8.5.1",
     "apollo-server": "^2.24.0",
     "bcrypt": "^5.0.1",
     "dotenv": "^9.0.2",
