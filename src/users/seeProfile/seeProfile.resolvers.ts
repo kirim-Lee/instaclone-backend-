@@ -1,9 +1,10 @@
 import { ResolverFn } from 'graphql-tools/dist/stitching/makeRemoteExecutableSchema';
-import client from '../client';
+import client from '../../client';
 
 interface ISeeProfile {
   username: string;
 }
+
 export default {
   Query: {
     seeProfile: async (_: ThisType<ResolverFn>, { username }: ISeeProfile) => {
