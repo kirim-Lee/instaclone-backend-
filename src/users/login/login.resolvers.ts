@@ -10,7 +10,7 @@ interface ILogin {
 
 export default {
   Mutation: {
-    login: async (_: ThisType<ResolverFn>, { username, password }: ILogin) => {
+    login: async (_: ResolverFn, { username, password }: ILogin) => {
       try {
         //find use with args.username
         const user = await client.user.findFirst({ where: { username } });

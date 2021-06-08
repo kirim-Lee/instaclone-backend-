@@ -13,7 +13,7 @@ interface ICreateAccount {
 export default {
   Mutation: {
     createAccount: async (
-      _: ThisType<ResolverFn>,
+      _: ResolverFn,
       { firstName, lastName, username, email, password }: ICreateAccount
     ) => {
       try {

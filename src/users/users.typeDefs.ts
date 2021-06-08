@@ -1,5 +1,15 @@
 import { gql } from 'apollo-server';
 
+export interface IUser {
+  id: number;
+  firstName: string;
+  lastName?: string;
+  username: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default gql`
   type User {
     id: Int!
