@@ -15,7 +15,7 @@ const schema = {
   resolvers,
   context: async ({ req }: any): Promise<object> => {
     return {
-      loggedUser: await getUser(req?.headers?.['x-jwt']),
+      loggedInUser: await getUser(req?.headers?.['x-jwt']),
       client,
       protectedResolver,
     };

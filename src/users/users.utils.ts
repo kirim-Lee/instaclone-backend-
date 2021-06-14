@@ -30,7 +30,7 @@ export const getUser = async (token: string | undefined) => {
 export const protectedResolver =
   (resolver: Resolver) =>
   (root: any, args?: any, context?: any, info?: GraphQLResolveInfo | any) => {
-    if (!context.loggedUser) {
+    if (!context.loggedInUser) {
       return { ok: false, error: 'pls login' };
     }
     return resolver(root, args, context, info);
