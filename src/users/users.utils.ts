@@ -1,5 +1,7 @@
 import client from '../client';
 import jwt from 'jsonwebtoken';
+import { GraphQLResolveInfo } from 'graphql';
+import { Resolver } from '../types';
 
 export const getUser = async (token: string | undefined) => {
   try {
@@ -24,3 +26,12 @@ export const getUser = async (token: string | undefined) => {
     return null;
   }
 };
+
+export const protectedResolver =
+  (resolver: Resolver) =>
+  (root: any, args?: any, context?: any, info?: GraphQLResolveInfo | any) => {
+    if (!context.loggedUser) {
+      return { ok: false, error: 'pls login' };
+    }
+    return resolver(root, args, context, info);
+  };

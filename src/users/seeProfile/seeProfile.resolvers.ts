@@ -1,22 +1,29 @@
 import { ResolverFn } from 'graphql-tools/dist/stitching/makeRemoteExecutableSchema';
-import client from '../../client';
+import { Resolvers } from '../../types';
+import { protectedResolver } from '../users.utils';
 
 interface ISeeProfile {
   username: string;
 }
 
-export default {
+const resolvers: Resolvers = {
   Query: {
-    seeProfile: async (_: ThisType<ResolverFn>, { username }: ISeeProfile) => {
-      try {
-        const user = await client.user.findUnique({ where: { username } });
-        if (!user) {
-          throw Error('user is not exist');
+    seeProfile: protectedResolver(
+      (_: ThisType<ResolverFn>, { username }: ISeeProfile, context) => {
+        try {
+          const user = context?.client.user.findUnique({
+            where: { username },
+          });
+          if (!user) {
+            throw Error('user is not exist');
+          }
+          return user;
+        } catch (e) {
+          return e;
         }
-        return user;
-      } catch (e) {
-        return e;
       }
-    },
+    ),
   },
 };
+
+export default resolvers;
