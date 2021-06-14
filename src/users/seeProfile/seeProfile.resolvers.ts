@@ -9,9 +9,9 @@ interface ISeeProfile {
 const resolvers: Resolvers = {
   Query: {
     seeProfile: protectedResolver(
-      (_: ThisType<ResolverFn>, { username }: ISeeProfile, context) => {
+      async (_: ThisType<ResolverFn>, { username }: ISeeProfile, context) => {
         try {
-          const user = context?.client.user.findUnique({
+          const user = await context?.client.user.findUnique({
             where: { username },
           });
           if (!user) {
