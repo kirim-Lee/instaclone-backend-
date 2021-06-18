@@ -9,14 +9,16 @@ import logger from 'morgan';
 const PORT = process.env.PORT;
 
 const app = express();
-const server = new ApolloServer(schema);
-
-server.applyMiddleware({ app });
+const apollo = new ApolloServer(schema);
 
 app.use(logger('tiny'));
 
+app.use('/static', express.static('uploads'));
+
+apollo.applyMiddleware({ app });
+
 app.listen(PORT, () => {
   console.log(
-    `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+    `🚀 Server ready at http://localhost:${PORT}${apollo.graphqlPath}`
   );
 });
