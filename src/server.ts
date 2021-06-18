@@ -7,19 +7,13 @@ import schema from './schema';
 
 const PORT = process.env.PORT;
 
-async function startApolloServer() {
-  const app = express();
-  const server = new ApolloServer(schema);
+const app = express();
+const server = new ApolloServer(schema);
 
-  await server.start();
+server.applyMiddleware({ app });
 
-  server.applyMiddleware({ app });
-
-  app.listen(PORT);
+app.listen(PORT, () => {
   console.log(
     `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
   );
-  return { server, app };
-}
-
-startApolloServer();
+});
