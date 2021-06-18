@@ -26,21 +26,28 @@ const resolvers: Resolvers = {
   Mutation: {
     editProfile: protectedResolver(
       async (_, { avatar, ...edit }: Partial<IEditProfile>, context) => {
-        const { filename, createReadStream } = (await avatar) || {};
-
-        if (createReadStream) {
-          const readStream = createReadStream();
-          const writeStream = fs.createWriteStream(
-            process.cwd() + '/uploads/' + filename
-          );
-          readStream.pipe(writeStream);
-        }
+        let avatarUrl: string = '';
 
         if (!context?.loggedInUser?.id) {
           return {
             ok: false,
             error: 'logged in user dont have id',
           };
+        }
+
+        if (avatar) {
+          const { filename, createReadStream } = await avatar;
+          const newFileName = `${
+            context.loggedInUser.id
+          }-${Date.now()}-${filename}`;
+
+          const readStream = createReadStream();
+          const writeStream = fs.createWriteStream(
+            `${process.cwd()}/uploads/${newFileName}`
+          );
+          readStream.pipe(writeStream);
+
+          avatarUrl = `http://localhost:4000/static/${newFileName}`;
         }
 
         if (edit.password) {
@@ -50,7 +57,7 @@ const resolvers: Resolvers = {
         try {
           const user = await client.user.update({
             where: { id: context.loggedInUser.id },
-            data: edit,
+            data: { ...edit, ...(avatarUrl && { avatar: avatarUrl }) },
           });
           if (user.id) {
             return {
