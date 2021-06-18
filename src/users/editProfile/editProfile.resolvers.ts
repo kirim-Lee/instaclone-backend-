@@ -1,16 +1,24 @@
+import fs from 'fs';
 import client from '../../client';
 import bcrypt from 'bcrypt';
-import { ResolverFn } from 'graphql-tools/dist/stitching/makeRemoteExecutableSchema';
-import { IUser } from '../users.typeDefs';
 import { Resolvers } from '../../types';
 import { protectedResolver } from '../users.utils';
+import { ReadStream } from 'fs-capacitor';
+
+interface FileUpload {
+  filename: string;
+  mimetype: string;
+  encoding: string;
+  createReadStream(): ReadStream;
+}
+
 interface IEditProfile {
   firstName: string;
   lastName: string;
   username: string;
   email: string;
   password: string;
-  avatar?: string;
+  avatar?: Promise<FileUpload>;
   bio?: string;
 }
 
@@ -18,6 +26,16 @@ const resolvers: Resolvers = {
   Mutation: {
     editProfile: protectedResolver(
       async (_, { avatar, ...edit }: Partial<IEditProfile>, context) => {
+        const { filename, createReadStream } = (await avatar) || {};
+
+        if (createReadStream) {
+          const readStream = createReadStream();
+          const writeStream = fs.createWriteStream(
+            process.cwd() + '/uploads/' + filename
+          );
+          readStream.pipe(writeStream);
+        }
+
         if (!context?.loggedInUser?.id) {
           return {
             ok: false,
