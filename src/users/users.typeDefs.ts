@@ -26,6 +26,6 @@ export default gql`
     totalFollowing: Int!
     totalFollowers: Int!
     # isFollowing: Boolean!
-    # isMe: Boolean!
+    isMe: Boolean!
   }
 `;
