@@ -23,4 +23,24 @@ model User{
   updatedAt DateTime @updatedAt
   followers User[] @relation("FollowRelation", references: [id])
   following User[] @relation("FollowRelation", references: [id])
+  photos Photo[]
+}
+
+model Photo {
+  id Int @id
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  file String
+  caption String?
+  hashtags HashTag[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HashTag {
+  id Int @id
+  hashtag String
+  photos Photo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
