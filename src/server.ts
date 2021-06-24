@@ -17,6 +17,8 @@ app.use('/static', express.static('uploads'));
 
 apollo.applyMiddleware({ app });
 
+console.log('log');
+
 app.listen(PORT, () => {
   console.log(
     `🚀 Server ready at http://localhost:${PORT}${apollo.graphqlPath}`
